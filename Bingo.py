@@ -23,91 +23,40 @@ def ZettelGanz(mult:int, bingoNumber:int, rand:int = 1):
     
     numberList = []
     
-    noNumber = np.concatenate(
-        ([np.ones(5)], [np.ones(5)], [np.ones(5)]))
-    noNumber = np.concatenate(
-        (noNumber,[np.ones(5)+1], [np.ones(5)+1], [np.ones(5)+1]))
-    noNumber = np.concatenate(
-        (noNumber,[np.ones(5)-1], [np.ones(5)-1], [np.ones(5)-1])).T
-
-    for i in noNumber:
-        rng.shuffle(i)
-
-    noNumber = noNumber.T
-    
-    num3 = noNumber[0][0]
-    noNumber[0][0] = 3
-    
-    num4 = noNumber[-1][0]
-    noNumber[-1][0] = 4
-    
-    noNumber = noNumber.astype(int).tolist()
-    
-    # print(noNumber)
-    
-    # noNumber = []
-    
+    "List with numbers 1-9, 10-19, 20-29,...,80-90"
     for i in range(9):
-        if i==0:
-            numberList.append(np.arange(1,10).tolist())
-            # noNumber.append([3]+
-            #                 list(rng.integers(3, size =4)))
-        elif i==8:
-            numberList.append(np.arange(80,91).tolist())
-            # noNumber.append([4]+
-            #                 list(rng.integers(3, size =4)))
+        numberList.append(np.arange(i*10+(1 if i%10==0 else 0),
+                                    10+i*10+int(i/8)))
+
+    for i in range(9):
+        rng.shuffle(numberList[i])
+        if i == 0:
+            currNums = np.split(numberList[i][1:],4)
+            currNums.append(np.array(numberList[i][0]))
+        elif i == 8:
+            currNums = np.split(numberList[i][3:],4)
+            currNums.append(np.array(numberList[i][0:3]))
         else:
-            numberList.append(np.arange(i*10,10+i*10).tolist())
-            # noNumber.append(list(rng.integers(3, size =5)))
-            
-    # print(noNumber)
-    noNumber = np.array(noNumber).T
-    unique, counts = np.unique(noNumber[0], return_counts=True)
-    noNumber =noNumber.T.tolist()
-    # print(noNumber)
-        # numberList.append(np.arange(1+i*10,11+i*10).tolist())
-    for i in range(9):
-        for ii1 in range(5):
-            # noNum = noNumber[i].pop(rng.choice(len(noNumber[i])))
-            noNum = noNumber[i].pop(0)
-            if i==0:
-                print(noNum)
-            # noNum = noNumber[i].pop(0)
-            if noNum==3:
-                tracker2 = rng.choice(3)
-            tracker = 0
-            for ii in range(3):
-                img1.rectangle([(m*i,m*(ii+ii1*3)+ii1*hA),
-                                (m*i+m+rand, m*(ii+ii1*3)+m+rand+ii1*hA)], 
+            currNums = np.split(numberList[i],5)
+        print(f"i: {i}, currNums: {currNums}")
+        for ii in range(5):
+            # blank = rng.integers(3, size = 3-currNums[ii].size, replace=False)
+            blank = rng.choice(3, 3-currNums[ii].size, False)
+            counter = 0
+            for iii in range(3):
+                img1.rectangle([(m*i,m*(iii+ii*3)+ii*hA),
+                                (m*i+m+rand, m*(iii+ii*3)+m+rand+ii*hA)], 
                                fill = (255,255,255), 
                                outline = (0,0,0), width=rand)
-                
-                if noNum==3:
-                    if ii == num3:
-                    # if counts[ii]<3:
-                        number = numberList[i].pop(rng.choice(len(numberList[i])))
-                        img1.text((m*i+m/2+rand/2,m*(ii+ii1*3)+ii1*hA+m/2+size/3), 
-                                  str(number),
-                                  fill=(0,0,0), font=font, anchor = "ms")
-                        # counts[ii] += 1
-                        # break
-                    
-                    tracker += 1
-                
-                elif noNum==4:
-                    if ii == num4:
-                        number = numberList[i].pop(rng.choice(len(numberList[i])))
-                        img1.text((m*i+m/2+rand/2,m*(ii+ii1*3)+ii1*hA+m/2+size/3), 
-                                  str(number),
-                                  fill=(0,0,0), font=font, anchor = "ms")
-                    
-                elif ii!=noNum:
-                    # print(f"ii: {ii}\nnoNum: {noNum}\nii1: {ii1}\ni: {i}")
-                    number = numberList[i].pop(rng.choice(len(numberList[i])))
-                    img1.text((m*i+m/2+rand/2,m*(ii+ii1*3)+ii1*hA+m/2+size/3), 
+                if iii not in blank:
+                    # print(f"currNums: {currNums}\nblank: {blank}")
+                    if currNums[ii].size > 1:
+                        number = currNums[ii][counter]
+                    else: number = currNums[ii]
+                    img1.text((m*i+m/2+rand/2,m*(iii+ii*3)+ii*hA+m/2+size/3), 
                               str(number),
                               fill=(0,0,0), font=font, anchor = "ms")
-                    tracker += 1
+                    counter += 1
             
     img.save(f"BingoBlaetter/BingoGanz{bingoNumber}.png")
     # img.show()
@@ -117,57 +66,33 @@ for i in range(1):
 
 
 #%%
-# rng = np.random.default_rng()
+numberList = []
 
-# # numberList = []
+for i in range(9):
+    # if i == 0
+    if not i:
+        numberList.append(np.arange(1,10))
+    elif i==8:
+        numberList.append(np.arange(80,91))
+    else:
+        numberList.append(np.arange(i*10,10+i*10))
 
-# # test = np.concatenate((np.array([[3,1,2]]).T,np.array([[4,2,0]]).T), axis = 1)
+#%%
+rng = np.random.default_rng()
 
+numberList = []
 
-# noNumber = np.concatenate(([np.ones(5)], [np.ones(5)], [np.ones(5)]))
-# noNumber = np.concatenate((noNumber,[np.ones(5)+1], [np.ones(5)+1], [np.ones(5)+1]))
-# noNumber = np.concatenate((noNumber,[np.ones(5)-1], [np.ones(5)-1], [np.ones(5)-1])).T
-# # noNumber[0][0] = 3
+"List with numbers 1-9, 10-19, 20-29,...,80-90"
+for i in range(9):
+    numberList.append(np.arange(i*10+(1 if i%10==0 else 0),
+                                10+i*10+int(i/8)))
 
-# # noNumber[-1][0] = 4
-# for i in noNumber:
-#     rng.shuffle(i)
-
-# noNumber = noNumber.T
-
-
-
-# noNumber = noNumber.astype(int).tolist()
-
-# noNumber = np.array(noNumber).T
-# unique, counts = np.unique(noNumber[0], return_counts=True)
-# noNumber =noNumber.T.tolist()
-
+rng.shuffle(numberList[0])
+currNums = np.split(numberList[0][1:],4)
+currNums.append(np.array(numberList[0][0]))
 
 
-# noNumber = []
-
-# for i in range(9):
-#     if i==0:
-#         noNumber.append([3]+
-#                         list(rng.integers(3, size =4)))
-#     elif i==8:
-#         noNumber.append([4]+
-#                         list(rng.integers(3, size =4)))
-#     else:
-#         noNumber.append(list(rng.integers(3, size =5)))
-
-
-
-
-
-
-
-
-
-
-
-
+#%%
 
 
 
