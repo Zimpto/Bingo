@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
+from random import shuffle
 
 #%%
 
@@ -32,11 +33,21 @@ def ZettelGanz(mult:int, bingoNumber:int, rand:int = 1):
         if i == 0:
             currNums = np.split(numberList[i][1:],4)
             currNums.append(np.array(numberList[i][0]))
+            shuffle(currNums)
+            for ind, element in enumerate(currNums):
+                if element.size == 1:
+                    specialIndex = ind
         elif i == 8:
             currNums = np.split(numberList[i][3:],4)
             currNums.append(np.array(numberList[i][0:3]))
+            shuffle(currNums)
+            for ind, element in enumerate(currNums):
+                if (element.size == 3) and (ind != specialIndex):
+                    currNums[ind], currNums[specialIndex] = currNums[
+                        specialIndex], currNums[ind]
         else:
             currNums = np.split(numberList[i],5)
+            shuffle(currNums)
         
         for ii in range(5):
             blank = rng.choice(3, 3-currNums[ii].size, False)
