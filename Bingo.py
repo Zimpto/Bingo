@@ -1,6 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
-from random import shuffle
 
 #%%
 
@@ -23,6 +22,14 @@ def BingoSheet(bingoNumber:int = 0):
     # heightBalancing
     hB = (m+border)/2
     
+    blankList = np.repeat([0,0,0,1,1,1,2,2,2], 5).reshape(9,5)
+
+    for i in range(5):
+        rng.shuffle(blankList[:,i])
+
+    blankList = blankList.tolist()
+    blankList[0].append(blankList[-1].pop(-1))
+
     "List with numbers 1-9, 10-19, 20-29,...,80-90"
     numberList = []
     for i in range(9):
@@ -38,14 +45,14 @@ def BingoSheet(bingoNumber:int = 0):
         if i == 0:
             currNums = np.split(numberList[i][1:],4)
             currNums.append(np.array(numberList[i][0]))
-            shuffle(currNums)
+            rng.shuffle(currNums)
             for ind, element in enumerate(currNums):
                 if element.size == 1:
                     specialIndex = ind
         elif i == 8:
             currNums = np.split(numberList[i][3:],4)
             currNums.append(np.array(numberList[i][0:3]))
-            shuffle(currNums)
+            rng.shuffle(currNums)
             # align special columns
             for ind, element in enumerate(currNums):
                 if (element.size == 3) and (ind != specialIndex):
@@ -53,12 +60,19 @@ def BingoSheet(bingoNumber:int = 0):
                         specialIndex], currNums[ind]
         else:
             currNums = np.split(numberList[i],5)
-            shuffle(currNums)
+            rng.shuffle(currNums)
         
         for ii in range(5):
             # ii stands for one rectangle at a time
             # blank chooses a number set to skip drawing a number
-            blank = rng.choice(3, 3-currNums[ii].size, False)
+            if currNums[ii].size==1:
+                blank = [blankList[i].pop(0), blankList[i].pop(0)]
+            elif currNums[ii].size==3:
+                blank = []
+            else:
+                blank = blankList[i].pop(0)
+
+            
             counter = 0
             if currNums[ii].size>1: currNums[ii] = np.sort(currNums[ii])
             for iii in range(3):
@@ -68,14 +82,24 @@ def BingoSheet(bingoNumber:int = 0):
                                 (m*i+m+border, m*(iii+ii*3)+m+border+ii*hB)], 
                                fill = (255,255,255), 
                                outline = (0,0,0), width=border)
-                if iii not in blank:
-                    try:
-                        number = currNums[ii][counter]
-                    except: number = currNums[ii]
-                    img1.text((m*i+m/2+border/2,m*(iii+ii*3)+ii*hB+m/2+size/3), 
-                              str(number),
-                              fill=(0,0,0), font=font, anchor = "ms")
-                    counter += 1
+                try:
+                    if iii not in blank:
+                        try:
+                            number = currNums[ii][counter]
+                        except: number = currNums[ii]
+                        img1.text((m*i+m/2+border/2,m*(iii+ii*3)+ii*hB+m/2+size/3), 
+                                  str(number),
+                                  fill=(0,0,0), font=font, anchor = "ms")
+                        counter += 1
+                except:
+                    if iii != blank:
+                        try:
+                            number = currNums[ii][counter]
+                        except: number = currNums[ii]
+                        img1.text((m*i+m/2+border/2,m*(iii+ii*3)+ii*hB+m/2+size/3), 
+                                  str(number),
+                                  fill=(0,0,0), font=font, anchor = "ms")
+                        counter += 1
             
     img.save(f"BingoBlaetter/BingoGanz{abs(bingoNumber)}.png")
     
@@ -84,9 +108,6 @@ def BingoSheet(bingoNumber:int = 0):
 
 # integer argument creates different bingo sheets +1, default is one
 BingoSheet()
-
-
-
 
 
 
