@@ -4,7 +4,7 @@ from random import shuffle
 
 #%%
 
-def ZettelGanz(bingoNumber:int):
+def BingoSheet(bingoNumber:int = 0):
     # multiplier
     m = 10*10
     # border of the rectangles drawn
@@ -77,10 +77,13 @@ def ZettelGanz(bingoNumber:int):
                               fill=(0,0,0), font=font, anchor = "ms")
                     counter += 1
             
-    img.save(f"BingoBlaetter/BingoGanz{bingoNumber}.png")
+    img.save(f"BingoBlaetter/BingoGanz{abs(bingoNumber)}.png")
+    
+    if bingoNumber:
+        return BingoSheet(abs(bingoNumber)-1)
 
-for i in range(1):
-    ZettelGanz(i)
+# integer argument creates different bingo sheets +1, default is one
+BingoSheet()
 
 
 
