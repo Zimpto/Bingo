@@ -4,32 +4,37 @@ from random import shuffle
 
 #%%
 
-def ZettelGanz(mult:int, bingoNumber:int, rand:int = 1):
-    m = 10*mult
-    rand *=2
+def ZettelGanz(bingoNumber:int):
+    # multiplier
+    m = 10*10
+    # border of the rectangles drawn
+    border = 6
     # creating new Image object
-    img = Image.new("RGB", (9*m+rand, 3*6*m+rand),(255,255,255))
+    img = Image.new("RGB", (9*m+border, 3*6*m+border-87),(255,255,255))
     # create rectangle drawable image
     img1 = ImageDraw.Draw(img)
     
-    size = 8*mult
+    size = 8*10
     fontpath = "B:/PyProjekt/Bingo/"
     font = ImageFont.truetype(fontpath+"Fonts/UbuntuMono-B.ttf",size)
     
     rng = np.random.default_rng()
     
-    # höhenAusgleich = heightBalancing
-    hA = (m+rand)/2
-    
-    numberList = []
+    # heightBalancing
+    hB = (m+border)/2
     
     "List with numbers 1-9, 10-19, 20-29,...,80-90"
+    numberList = []
     for i in range(9):
         numberList.append(np.arange(i*10+(1 if i%10==0 else 0),
                                     10+i*10+int(i/8)))
 
     for i in range(9):
+        # i stands for the columns across the rectangles
         rng.shuffle(numberList[i])
+        # currNums originate from the numberList 
+        # currNums are for one of the five rectangles
+        # its important to match the first and the last special column
         if i == 0:
             currNums = np.split(numberList[i][1:],4)
             currNums.append(np.array(numberList[i][0]))
@@ -41,6 +46,7 @@ def ZettelGanz(mult:int, bingoNumber:int, rand:int = 1):
             currNums = np.split(numberList[i][3:],4)
             currNums.append(np.array(numberList[i][0:3]))
             shuffle(currNums)
+            # align special columns
             for ind, element in enumerate(currNums):
                 if (element.size == 3) and (ind != specialIndex):
                     currNums[ind], currNums[specialIndex] = currNums[
@@ -50,31 +56,31 @@ def ZettelGanz(mult:int, bingoNumber:int, rand:int = 1):
             shuffle(currNums)
         
         for ii in range(5):
+            # ii stands for one rectangle at a time
+            # blank chooses a number set to skip drawing a number
             blank = rng.choice(3, 3-currNums[ii].size, False)
             counter = 0
-            try:
-                currNums[ii] = np.sort(currNums[ii])
-            except:
-                pass
+            if currNums[ii].size>1: currNums[ii] = np.sort(currNums[ii])
             for iii in range(3):
-                img1.rectangle([(m*i,m*(iii+ii*3)+ii*hA),
-                                (m*i+m+rand, m*(iii+ii*3)+m+rand+ii*hA)], 
+                # iii stands for the three columns in one rectangle
+                # img1.rectangle draws the squares
+                img1.rectangle([(m*i,m*(iii+ii*3)+ii*hB),
+                                (m*i+m+border, m*(iii+ii*3)+m+border+ii*hB)], 
                                fill = (255,255,255), 
-                               outline = (0,0,0), width=rand)
+                               outline = (0,0,0), width=border)
                 if iii not in blank:
                     try:
                         number = currNums[ii][counter]
                     except: number = currNums[ii]
-                    img1.text((m*i+m/2+rand/2,m*(iii+ii*3)+ii*hA+m/2+size/3), 
+                    img1.text((m*i+m/2+border/2,m*(iii+ii*3)+ii*hB+m/2+size/3), 
                               str(number),
                               fill=(0,0,0), font=font, anchor = "ms")
                     counter += 1
             
     img.save(f"BingoBlaetter/BingoGanz{bingoNumber}.png")
-    # img.show()
 
 for i in range(1):
-    test = ZettelGanz(10,i,3)
+    ZettelGanz(i)
 
 
 
