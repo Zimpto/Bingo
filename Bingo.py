@@ -42,14 +42,14 @@ def BingoSheet(bingoNumber:int = 0):
         # its important to match the first and the last special column
         if i == 0:
             currNums = np.split(numberList[i][1:],4)
-            currNums.append(np.array(numberList[i][0]))
+            currNums.append(numberList[i][0])
             rng.shuffle(currNums)
             for ind, element in enumerate(currNums):
                 if element.size == 1:
                     specialIndex = ind
         elif i == 8:
             currNums = np.split(numberList[i][3:],4)
-            currNums.append(np.array(numberList[i][0:3]))
+            currNums.append(numberList[i][0:3])
             rng.shuffle(currNums)
             # align special columns
             for ind, element in enumerate(currNums):
@@ -69,11 +69,10 @@ def BingoSheet(bingoNumber:int = 0):
             elif currNums[ii].size==3:
                 blank = []
             else:
-                blank = blankList[i].pop(0)
+                blank = [blankList[i].pop(0)]
 
-            
-            counter = 0
             if currNums[ii].size>1: currNums[ii] = np.sort(currNums[ii])
+            currNums[ii] = currNums[ii].tolist()
             for iii in range(3):
                 # iii stands for the three columns in one rectangle
                 # img1.rectangle draws the squares
@@ -81,24 +80,15 @@ def BingoSheet(bingoNumber:int = 0):
                                 (m*i+m+border, m*(iii+ii*3)+m+border+ii*hB)], 
                                fill = (255,255,255), 
                                outline = (0,0,0), width=border)
-                try:
-                    if iii not in blank:
-                        try:
-                            number = currNums[ii][counter]
-                        except: number = currNums[ii]
-                        img1.text((m*i+m/2+border/2,m*(iii+ii*3)+ii*hB+m/2+size/3), 
-                                  str(number),
-                                  fill=(0,0,0), font=font, anchor = "ms")
-                        counter += 1
-                except:
-                    if iii != blank:
-                        try:
-                            number = currNums[ii][counter]
-                        except: number = currNums[ii]
-                        img1.text((m*i+m/2+border/2,m*(iii+ii*3)+ii*hB+m/2+size/3), 
-                                  str(number),
-                                  fill=(0,0,0), font=font, anchor = "ms")
-                        counter += 1
+
+                if iii not in blank:
+                    if isinstance(currNums[ii], int):
+                        currNums[ii] = [currNums[ii]]
+                    number = currNums[ii].pop(0)
+                    img1.text((m*i+m/2+border/2,m*(iii+ii*3)+ii*hB+m/2+size/3), 
+                              str(number),
+                              fill=(0,0,0), font=font, anchor = "ms")
+
             
     img.save(f"BingoBlaetter/BingoGanz{abs(bingoNumber)}.png")
     
