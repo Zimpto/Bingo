@@ -14,8 +14,7 @@ def BingoSheet(bingoNumber:int = 0):
     img1 = ImageDraw.Draw(img)
     
     size = 8*10
-    fontpath = "B:/PyProjekt/Bingo/"
-    font = ImageFont.truetype(fontpath+"Fonts/UbuntuMono-B.ttf",size)
+    font = ImageFont.truetype("Fonts/UbuntuMono-B.ttf",size)
     
     rng = np.random.default_rng()
     
@@ -23,12 +22,11 @@ def BingoSheet(bingoNumber:int = 0):
     hB = (m+border)/2
     
     blankList = np.repeat([0,0,0,1,1,1,2,2,2], 5).reshape(9,5)
-
+    
     for i in range(5):
         rng.shuffle(blankList[:,i])
 
     blankList = blankList.tolist()
-    blankList[0].append(blankList[-1].pop(-1))
 
     "List with numbers 1-9, 10-19, 20-29,...,80-90"
     numberList = []
@@ -66,7 +64,8 @@ def BingoSheet(bingoNumber:int = 0):
             # ii stands for one rectangle at a time
             # blank chooses a number set to skip drawing a number
             if currNums[ii].size==1:
-                blank = [blankList[i].pop(0), blankList[i].pop(0)]
+                blank = [blankList[0].pop(0), blankList[8].pop(ii)]
+                if blank[0] == blank[1]: return BingoSheet(abs(bingoNumber))
             elif currNums[ii].size==3:
                 blank = []
             else:
