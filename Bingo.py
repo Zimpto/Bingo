@@ -27,7 +27,7 @@ def BingoSheet(bingoNumber:int = 1):
         rng.shuffle(blankList[:,i])
 
     blankList = blankList.tolist()
-
+    
     "List with numbers 1-9, 10-19, 20-29,...,80-90"
     numberList = []
     for i in range(9):
@@ -64,8 +64,9 @@ def BingoSheet(bingoNumber:int = 1):
             # ii stands for one rectangle at a time
             # blank chooses a number set to skip drawing a number
             if currNums[ii].size==1:
+                while blankList[0][0] == blankList[8][ii]: 
+                    rng.shuffle(blankList[:][8])
                 blank = [blankList[0].pop(0), blankList[8].pop(ii)]
-                if blank[0] == blank[1]: return BingoSheet(abs(bingoNumber))
             elif currNums[ii].size==3:
                 blank = []
             else:
@@ -89,7 +90,6 @@ def BingoSheet(bingoNumber:int = 1):
                               str(number),
                               fill=(0,0,0), font=font, anchor = "ms")
 
-            
     img.save(f"BingoSheets/BingoSheet{abs(bingoNumber)-1}.png")
     
     if abs(bingoNumber)-1:
@@ -97,5 +97,4 @@ def BingoSheet(bingoNumber:int = 1):
 
 # integer argument creates integer amount of different bingo sheets, default is one
 BingoSheet()
-
 
