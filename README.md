@@ -17,6 +17,7 @@ from Bingo import generate_bingo_sheets
 
 # Generate 10 Bingo sheets
 BingoSheet(10)
+```
 
 ## 🧾 Requirements
 Make sure you have the following Python libraries installed:
@@ -28,12 +29,12 @@ You can install Pillow using pip:
 
 ```bash
 pip install Pillow
-
+```
 You can install Numpy using pip:
 
 ```bash
 pip install Numpy
-
+```
 ## ✅ To-Do
 
 - [ ] Add customization options for colors and fonts  
