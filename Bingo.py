@@ -67,13 +67,13 @@ def BingoSheet(bingoNumber:int = 1):
                 while blankList[0][0] == blankList[8][ii]: 
                     rng.shuffle(blankList[:][8])
                 blank = [blankList[0].pop(0), blankList[8].pop(ii)]
+                currNums[ii] = [currNums[ii]]
             elif currNums[ii].size==3:
                 blank = []
             else:
                 blank = [blankList[i].pop(0)]
-
-            if currNums[ii].size>1: currNums[ii] = np.sort(currNums[ii])
-            currNums[ii] = currNums[ii].tolist()
+            
+            currNums[ii] = np.sort(currNums[ii]).tolist()
             for iii in range(3):
                 # iii stands for the three columns in one rectangle
                 # img1.rectangle draws the squares
