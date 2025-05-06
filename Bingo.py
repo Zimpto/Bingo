@@ -3,7 +3,7 @@ import numpy as np
 
 #%%
 
-def BingoSheet(bingoNumber:int = 0):
+def BingoSheet(bingoNumber:int = 1):
     # multiplier
     m = 10*10
     # border of the rectangles drawn
@@ -90,15 +90,12 @@ def BingoSheet(bingoNumber:int = 0):
                               fill=(0,0,0), font=font, anchor = "ms")
 
             
-    img.save(f"BingoBlaetter/BingoGanz{abs(bingoNumber)}.png")
+    img.save(f"BingoSheets/BingoSheet{abs(bingoNumber)-1}.png")
     
-    if bingoNumber:
+    if abs(bingoNumber)-1:
         return BingoSheet(abs(bingoNumber)-1)
 
-# integer argument creates different bingo sheets +1, default is one
+# integer argument creates integer amount of different bingo sheets, default is one
 BingoSheet()
-
-
-
 
 
