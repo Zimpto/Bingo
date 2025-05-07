@@ -65,7 +65,7 @@ def BingoSheet(bingoNumber:int = 1):
             # blank chooses a number set to skip drawing a number
             if currNums[ii].size==1:
                 while blankList[0][0] == blankList[8][ii]: 
-                    rng.shuffle(blankList[:][8])
+                    rng.shuffle(blankList[8])
                 blank = [blankList[0].pop(0), blankList[8].pop(ii)]
                 currNums[ii] = [currNums[ii]]
             elif currNums[ii].size==3:

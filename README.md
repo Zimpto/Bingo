@@ -13,7 +13,7 @@
 Simply call the main function in your script and specify how many Bingo sheets you'd like to generate.
 
 ```python
-from Bingo import generate_bingo_sheets
+from Bingo import BingoSheet
 
 # Generate 10 Bingo sheets
 BingoSheet(10)
@@ -37,5 +37,6 @@ pip install Numpy
 ```
 ## ✅ To-Do
 
+- [ ] Stabilize the free spaces
 - [ ] Add customization options for colors and fonts  
 - [ ] Support exporting to PDF format
