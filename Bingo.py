@@ -3,13 +3,14 @@ import numpy as np
 
 #%%
 
-def BingoSheet(bingoNumber:int = 1):
+def BingoSheet(bingoNumber:int = 1, color:str = None):
     # multiplier
     m = 10*10
     # border of the rectangles drawn
     border = 6
     # creating new Image object
-    img = Image.new("RGB", (9*m+border, 3*6*m+border-87),(255,255,255))
+    img = Image.new("RGBA", (9*m+border, 3*6*m+border-87),(255,255,255))
+    # dinA4  größe
     # create rectangle drawable image
     img1 = ImageDraw.Draw(img)
     
@@ -64,8 +65,10 @@ def BingoSheet(bingoNumber:int = 1):
             # ii stands for one rectangle at a time
             # blank chooses a number set to skip drawing a number
             if currNums[ii].size==1:
-                while blankList[0][0] == blankList[8][ii]: 
-                    rng.shuffle(blankList[8])
+                diff = 7
+                while blankList[0][0] == blankList[8][ii]:
+                    blankList[8], blankList[diff] = blankList[diff], blankList[8]
+                    diff -= 1
                 blank = [blankList[0].pop(0), blankList[8].pop(ii)]
                 currNums[ii] = [currNums[ii]]
             elif currNums[ii].size==3:
@@ -79,22 +82,23 @@ def BingoSheet(bingoNumber:int = 1):
                 # img1.rectangle draws the squares
                 img1.rectangle([(m*i,m*(iii+ii*3)+ii*hB),
                                 (m*i+m+border, m*(iii+ii*3)+m+border+ii*hB)], 
-                               fill = (255,255,255), 
+                               fill = (255,255,255),
                                outline = (0,0,0), width=border)
 
                 if iii not in blank:
-                    if isinstance(currNums[ii], int):
-                        currNums[ii] = [currNums[ii]]
                     number = currNums[ii].pop(0)
                     img1.text((m*i+m/2+border/2,m*(iii+ii*3)+ii*hB+m/2+size/3), 
                               str(number),
                               fill=(0,0,0), font=font, anchor = "ms")
 
-    img.save(f"BingoSheets/BingoSheet{abs(bingoNumber)-1}.png")
+    img.save(f"BingoSheets/BingoSheet{abs(bingoNumber)-1}.pdf")
     
     if abs(bingoNumber)-1:
         return BingoSheet(abs(bingoNumber)-1)
 
 # integer argument creates integer amount of different bingo sheets, default is one
 BingoSheet()
+
+
+
 

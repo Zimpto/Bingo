@@ -37,6 +37,6 @@ pip install Numpy
 ```
 ## ✅ To-Do
 
-- [ ] Stabilize the free spaces
+- [X] Stabilize the free spaces
+- [X] Support exporting to PDF format
 - [ ] Add customization options for colors and fonts  
-- [ ] Support exporting to PDF format
