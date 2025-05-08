@@ -6,7 +6,7 @@
 
 - 📄 Generates **any number** of Bingo sheets by passing the desired count as an argument.
 - 🧩 Each sheet contains **five 3×9 rectangles**, differing from the standard six-grid layout.
-- 🖼️ Outputs the Bingo sheets as images, ready for printing or sharing.
+- 🖼️ Outputs the Bingo sheets as PDFs, ready for printing out as DinA4.
 
 ## 🛠️ How It Works
 
@@ -25,18 +25,17 @@ Make sure you have the following Python libraries installed:
 - `Pillow` (for image creation)
 - `Numpy` (for array handling)
 
-You can install Pillow using pip:
+Install Pillow using pip:
 
 ```bash
 pip install Pillow
 ```
-You can install Numpy using pip:
+Install Numpy using pip:
 
 ```bash
 pip install Numpy
 ```
 ## ✅ To-Do
 
-- [X] Stabilize the free spaces
-- [X] Support exporting to PDF format
 - [ ] Add customization options for colors and fonts  
+- [ ] Add *standard* format(six rectangles)
