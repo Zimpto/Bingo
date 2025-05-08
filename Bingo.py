@@ -1,8 +1,10 @@
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageColor
 import numpy as np
 
 
 def BingoSheet(bingoNumber:int = 1, color:str = "white"):
+    # get the color as RGB and add opacity
+    RGBcolor = ImageColor.getrgb(color) + (35,)
     # multiplier
     m = 10*10
     # border/outline of the rectangles drawn
@@ -79,7 +81,7 @@ def BingoSheet(bingoNumber:int = 1, color:str = "white"):
                 # img1.rectangle draws the squares
                 img1.rectangle([(m*i,m*(iii+ii*3)+ii*hB),
                                 (m*i+m+border, m*(iii+ii*3)+m+border+ii*hB)], 
-                               fill = (255,255,255),
+                               fill = (RGBcolor),
                                outline = (0,0,0), width=border)
 
                 if iii not in blank:
@@ -93,7 +95,9 @@ def BingoSheet(bingoNumber:int = 1, color:str = "white"):
     if abs(bingoNumber)-1:
         return BingoSheet(abs(bingoNumber)-1)
 
-# integer argument creates integer amount of different bingo sheets, default is one
+# integer argument creates integer amount of different bingo sheets
+# second argument is a color as string
+# default is one sheet and color white
 BingoSheet()
 
 
