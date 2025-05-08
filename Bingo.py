@@ -4,7 +4,7 @@ import numpy as np
 
 def BingoSheet(bingoNumber:int = 1, color:str = "white"):
     # get the color as RGB and add opacity
-    RGBcolor = ImageColor.getrgb(color) + (35,)
+    RGBcolor = ImageColor.getrgb(color) + (45,)
     # multiplier
     m = 10*10
     # border/outline of the rectangles drawn
@@ -93,12 +93,12 @@ def BingoSheet(bingoNumber:int = 1, color:str = "white"):
     img.save(f"BingoSheets/BingoSheet{abs(bingoNumber)-1}.pdf", dpi=(150, 150))
     
     if abs(bingoNumber)-1:
-        return BingoSheet(abs(bingoNumber)-1)
+        return BingoSheet(abs(bingoNumber)-1, color=color)
 
 # integer argument creates integer amount of different bingo sheets
 # second argument is a color as string
 # default is one sheet and color white
-BingoSheet()
+BingoSheet(5, color="lightblue")
 
 
 
