@@ -1,16 +1,16 @@
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 
-#%%
 
-def BingoSheet(bingoNumber:int = 1, color:str = None):
+def BingoSheet(bingoNumber:int = 1, color:str = "white"):
     # multiplier
     m = 10*10
-    # border of the rectangles drawn
+    # border/outline of the rectangles drawn
     border = 6
+    # heightBalancing
+    hB = int((m+border)/3)
     # creating new Image object
-    img = Image.new("RGBA", (9*m+border, 3*6*m+border-87),(255,255,255))
-    # dinA4  größe
+    img = Image.new("RGBA", (9*m+border*2, 3*5*m+4*hB+border*2),(255,255,255,255))
     # create rectangle drawable image
     img1 = ImageDraw.Draw(img)
     
@@ -18,9 +18,6 @@ def BingoSheet(bingoNumber:int = 1, color:str = None):
     font = ImageFont.truetype("Fonts/UbuntuMono-B.ttf",size)
     
     rng = np.random.default_rng()
-    
-    # heightBalancing
-    hB = (m+border)/2
     
     blankList = np.repeat([0,0,0,1,1,1,2,2,2], 5).reshape(9,5)
     
@@ -90,8 +87,8 @@ def BingoSheet(bingoNumber:int = 1, color:str = None):
                     img1.text((m*i+m/2+border/2,m*(iii+ii*3)+ii*hB+m/2+size/3), 
                               str(number),
                               fill=(0,0,0), font=font, anchor = "ms")
-
-    img.save(f"BingoSheets/BingoSheet{abs(bingoNumber)-1}.pdf")
+    
+    img.save(f"BingoSheets/BingoSheet{abs(bingoNumber)-1}.pdf", dpi=(150, 150))
     
     if abs(bingoNumber)-1:
         return BingoSheet(abs(bingoNumber)-1)
