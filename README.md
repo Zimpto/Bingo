@@ -5,18 +5,20 @@
 ## 📌 Features
 
 - 📄 Generates **any number** of Bingo sheets by passing the desired count as an argument.
+- 🎨 Optionally specify a **light background color** using any valid HTML color name.
 - 🧩 Each sheet contains **five 3×9 rectangles**, differing from the standard six-grid layout.
 - 🖼️ Outputs the Bingo sheets as PDFs, ready for printing out as DinA4.
 
 ## 🛠️ How It Works
 
-Simply call the main function in your script and specify how many Bingo sheets you'd like to generate.
+Simply call the main function in your script and specify how many Bingo sheets you'd like to generate (default is one). 
+Additionally you can specify a light background color with the argument `color` as a string. All common HTML colors can be used (see for example [HTML colors w3schools](https://www.w3schools.com/tags/ref_colornames.asp)).
 
 ```python
 from Bingo import BingoSheet
 
-# Generate 10 Bingo sheets
-BingoSheet(10)
+# Generate 5 Bingo sheets with a light blue background
+BingoSheet(5, color="lightblue")
 ```
 
 ## 🧾 Requirements
@@ -37,7 +39,6 @@ pip install Numpy
 ```
 ## ✅ To-Do
 
-- [ ] Add customization options for colors and fonts  
 - [ ] Write as class for cleaner approach
 - [ ] Add GUI
 - [ ] Add *standard* format(six rectangles)
