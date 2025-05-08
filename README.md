@@ -38,4 +38,6 @@ pip install Numpy
 ## ✅ To-Do
 
 - [ ] Add customization options for colors and fonts  
+- [ ] Write as class for cleaner approach
+- [ ] Add GUI
 - [ ] Add *standard* format(six rectangles)
