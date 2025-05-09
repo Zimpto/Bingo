@@ -37,8 +37,11 @@ Install Numpy using pip:
 ```bash
 pip install Numpy
 ```
-## ✅ To-Do
 
-- [ ] Write as class for cleaner approach
-- [ ] Add GUI
-- [ ] Add *standard* format(six rectangles)
+## Example
+
+![](exampleAsPNG.png)
+
+## ✅ Fetaure Ideas
+
+- Add *standard* format(six rectangles)
