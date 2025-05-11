@@ -44,4 +44,6 @@ pip install Numpy
 
 ## ✅ Fetaure Ideas
 
+- Add PDF checker to ensure different Bingo Sheets
+- Write a class to make the 2 funktions compact
 - Add *standard* format(six rectangles)

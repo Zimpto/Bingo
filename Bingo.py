@@ -13,7 +13,7 @@ def BingoSheet(bingoNumber:int = 1, color:str = "white"):
     # heightBalancing
     hB = int((m+border)/3)
     # creating new Image object
-    img = Image.new("RGBA", (9*m+border*2-5, 3*5*m+4*hB+border*2-5),(255,255,255,255))
+    img = Image.new("RGBA", (9*m+border+1, 3*5*m+4*hB+border+1),(255,255,255,255))
     # create rectangle drawable image
     img1 = ImageDraw.Draw(img)
     
@@ -96,10 +96,11 @@ def BingoSheet(bingoNumber:int = 1, color:str = "white"):
     if abs(bingoNumber)-1:
         return BingoSheet(abs(bingoNumber)-1, color=color)
 
-# integer argument creates integer amount of different bingo sheets
-# second argument is a color as string
-# default is one sheet and color white
-BingoSheet(5, color="lightblue")
+if __name__ == "__main__":
+    # integer argument creates integer amount of different bingo sheets
+    # second argument is a color as string
+    # default is one sheet and color white
+    BingoSheet(5, color="lightblue")
 
 
 
